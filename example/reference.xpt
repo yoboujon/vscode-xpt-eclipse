@@ -1,0 +1,18 @@
+<-- Took from the official Xpand Documentation                  -->
+<--                                                             -->
+<-- https://gitlab.eclipse.org/eclipse/xpand/org.eclipse.xpand  -->
+
+«DEFINE Root FOR data::DataModel»
+  «EXPAND Entity FOREACH entity»
+«ENDDEFINE»
+
+«DEFINE Entity FOR data::Entity»
+  «FILE name + ".java"»
+    public class «name» {
+      «FOREACH attribute AS a»
+        // bad practice
+        private «a.type» «a.name»;
+      «ENDFOREACH»
+    }
+  «ENDFILE»
+«ENDDEFINE» 

@@ -1,0 +1,55 @@
+{
+  "name": "vscode-xpt-eclipse",
+  "displayName": "Eclipse Xpand Language Support",
+  "description": "VSCode Extension for Eclipse Xpand files.",
+  "version": "0.0.1",
+  "repository": "https://github.com/yoboujon/vscode-xpt-eclipse",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:xpt"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "xpand",
+        "aliases": [
+          "Eclipse XPand",
+          "XPand",
+          "xpand"
+        ],
+        "extensions": [
+          ".xpt"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "xpand",
+        "scopeName": "source.xpt",
+        "path": "./syntaxes/xpand.tmLanguage.json"
+      }
+    ]
+  },
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint",
+		"watch": "tsc -watch -p ./"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.13.0",
+		"@stylistic/eslint-plugin": "^2.9.0",
+		"@types/node": "^20",
+		"@types/vscode": "^1.73.0",
+		"eslint": "^9.13.0",
+		"typescript": "^5.7.2",
+		"typescript-eslint": "^8.16.0"
+	}
+}

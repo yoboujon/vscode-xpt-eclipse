@@ -1,0 +1,13 @@
+<-- Took from the official Xpand Documentation                  -->
+<--                                                             -->
+<-- https://gitlab.eclipse.org/eclipse/xpand/org.eclipse.xpand  -->
+
+«IMPORT metamodel»
+
+«DEFINE Root FOR metamodel::Wizard»
+«FILE "wizard.txt"»
+Name: «name»
+Welcometext: «welcometext»
+First Page Title: «choicepage.title»
+«ENDFILE»
+«ENDDEFINE»

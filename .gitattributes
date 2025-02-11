@@ -1,0 +1,4 @@
+*               linguist-language=Plain Text
+*.js            linguist-language=JavaScript
+*.ts            linguist-language=TypeScript
+*.xpt           linguist-language=Eclipse Xpand
