@@ -1,32 +1,45 @@
 {
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-	"name": "Eclipse XPand",
-	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#strings"
-		}
-	],
-	"repository": {
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.xpand",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
-		},
-		"strings": {
-			"name": "string.quoted.double.xpand",
-			"begin": "\"",
-			"end": "\"",
-			"patterns": [
-				{
-					"name": "constant.character.escape.xpand",
-					"match": "\\\\."
-				}
-			]
-		}
-	},
-	"scopeName": "source.xpt"
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Eclipse XPand",
+  "patterns": [
+    {
+      "begin": "<--",
+      "end": "-->",
+      "name": "comment.block.xpand"
+    },
+    {
+      "begin": "«REM»",
+      "end": "«ENDREM?.»",
+      "name": "comment.block.xpand"
+    },
+    {
+      "match": "(?!«.*?»).",
+      "name": "markup.italic.xpand"
+    },
+    {
+      "begin": "«",
+      "end": "»",
+      "patterns": [
+        {
+          "name": "keyword.xpand",
+          "match": "\\b(IMPORT|EXTENSION|DEFINE|FILE|EXPAND|FOREACH|PROTECT|LET|ERROR|REM|AROUND)\\b"
+        },
+        {
+          "name": "keyword.xpand",
+          "match": "\\b(IF|ELSEIF|ELSE)\\b"
+        },
+        {
+          "name": "keyword.operator",
+          "match": "\\b(AS|FOR|CSTART|CEND|ID)\\b"
+        },
+        {
+          "name": "storage.modifier.xpand",
+          "match": "\\b(ENDIF|ENDFILE|ENDDEFINE|ENDFOREACH|ENDLET|ENDPROTECT|ENDAROUND)\\b"
+        },
+        { "begin": "\"", "end": "\"", "name": "string.quoted.double.xpand" }
+      ]
+    }
+  ],
+  "repository": {},
+  "scopeName": "source.xpt"
 }
