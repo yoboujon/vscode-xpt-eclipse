@@ -3,9 +3,30 @@ import * as path from 'path';
 
 export function activate(context: vscode.ExtensionContext) {
     vscode.workspace.onDidOpenTextDocument(checkEncoding);
+    vscode.workspace.onDidChangeTextDocument(checkQuotes)
 }
 
 export function deactivate() { }
+
+async function checkQuotes(event: vscode.TextDocumentChangeEvent) {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        return;
+    }
+
+    // Get the text that was changed
+    const changes = event.contentChanges;
+    if (changes.length === 0) {
+        return;
+    }
+
+    const change = changes[0];
+    const textInserted = change.text;
+
+    // Macros
+    replaceCursor('<','«', textInserted, editor);
+    replaceCursor('>','»', textInserted, editor);
+}
 
 async function checkEncoding(document: vscode.TextDocument) {
     const uri = document.uri;
@@ -66,4 +87,21 @@ function replaceBytes(data: Uint8Array, target: number, replacement: Uint8Array)
     }
 
     return new Uint8Array(result);
+}
+
+async function replaceCursor(check: string, replace: string, textInserted: string, editor: vscode.TextEditor)
+{
+    if (textInserted === check && editor.selection.active.character > 0) {
+        const line = editor.document.lineAt(editor.selection.active.line);
+        const prevChar = line.text[editor.selection.active.character - 1];
+
+        if (prevChar === check) {
+            const start = new vscode.Position(editor.selection.active.line, editor.selection.active.character - 1);
+            const end = new vscode.Position(editor.selection.active.line, editor.selection.active.character + 1);
+
+            await editor.edit((editBuilder) => {
+                editBuilder.replace(new vscode.Range(start, end), replace);
+            });
+        }
+    }
 }
