@@ -2,17 +2,17 @@
 <--                                                             -->
 <-- https://gitlab.eclipse.org/eclipse/xpand/org.eclipse.xpand  -->
 
-«DEFINE Root FOR data::DataModel»
-  «EXPAND Entity FOREACH entity»
-«ENDDEFINE»
+Â«DEFINE Root FOR data::DataModelÂ»
+  Â«EXPAND Entity FOREACH entityÂ»
+Â«ENDDEFINEÂ»
 
-«DEFINE Entity FOR data::Entity»
-  «FILE name + ".java"»
-    public class «name» {
-      «FOREACH attribute AS a»
+Â«DEFINE Entity FOR data::EntityÂ»
+  Â«FILE name + ".java"Â»
+    public class Â«nameÂ» {
+      Â«FOREACH attribute AS aÂ»
         // bad practice
-        private «a.type» «a.name»;
-      «ENDFOREACH»
+        private Â«a.typeÂ» Â«a.nameÂ»;
+      Â«ENDFOREACHÂ»
     }
-  «ENDFILE»
-«ENDDEFINE» 
+  Â«ENDFILEÂ»
+Â«ENDDEFINEÂ» 

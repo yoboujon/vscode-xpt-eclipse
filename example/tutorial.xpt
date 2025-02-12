@@ -2,12 +2,15 @@
 <--                                                             -->
 <-- https://gitlab.eclipse.org/eclipse/xpand/org.eclipse.xpand  -->
 
-«IMPORT metamodel»
+Â«IMPORT meta::modelÂ»
+Â«EXTENSION my::ExtensionFileÂ»
 
-«DEFINE Root FOR metamodel::Wizard»
-«FILE "wizard.txt"»
-Name: «name»
-Welcometext: «welcometext»
-First Page Title: «choicepage.title»
-«ENDFILE»
-«ENDDEFINE»
+Â«DEFINE javaClass FOR EntityÂ»
+   Â«FILE fileName()Â»
+      package Â«javaPackage()Â»;
+
+      public class Â«nameÂ» {
+         // implementation
+      }
+   Â«ENDFILEÂ»
+Â«ENDDEFINEÂ»

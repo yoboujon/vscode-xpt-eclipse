@@ -1,59 +1,69 @@
 import * as vscode from "vscode";
-
-interface XpandConfig {
-    files: {
-        encoding: string;
-    };
-}
+import * as path from 'path';
 
 export function activate(context: vscode.ExtensionContext) {
-    const config = vscode.workspace.getConfiguration();
-    const xpand_config = config.get("[xpand]") as { [key: string]: any };
-
-    check_encoding(xpand_config);
-
-    /*
-    ISO-88591 vs UTF-8 encoding: 
-        0xab -> 0xc2ab
-        0xbb -> 0xc2bb
-    */
+    vscode.workspace.onDidOpenTextDocument(checkEncoding);
 }
 
 export function deactivate() { }
 
-async function check_encoding(xpand_config: { [key: string]: any; }) {
-    if ((xpand_config !== undefined) && (xpand_config["files.encoding"] === "iso88591"))
-        return;
+async function checkEncoding(document: vscode.TextDocument) {
+    const uri = document.uri;
+    const gitvirtualfile = path.basename(document.uri.path).endsWith("git");
 
-    const result = await vscode.window.showInformationMessage(
-        'To correctly read ".xpt" files, encoding should be set to ISO8859-1, Do you wish to change the encoding globally?',
-        'Yes',
-        'No, not this time',
-        'No, never ask again'
-    );
+    const name = path.basename(document.uri.path);
+    /*
+        ISO-8859-1 vs UTF-8 encoding: 
+            0xab -> 0xc2ab
+            0xbb -> 0xc2bb
+    */
+    const utf8Pattern_back = new Uint8Array([0xc2, 0xab]);
+    const utf8Pattern_forward = new Uint8Array([0xc2, 0xbb]);
 
-    if (result === 'Yes') {
-        change_encoding(xpand_config);
+    try {
+        let fileData = await vscode.workspace.fs.readFile(uri);
+        const containsUTF8 = containsArr(utf8Pattern_back, fileData) || containsArr(utf8Pattern_forward, fileData);
+
+        if (!gitvirtualfile && !containsUTF8) {
+            const result = await vscode.window.showErrorMessage(`'${name}': Contains ISO-8859-1 characters, do you wish to convert the file to UTF-8 ?`,
+                'Yes',
+                'No'
+            );
+
+            if (result === 'Yes') {
+                fileData = replaceBytes(fileData, 0xab, utf8Pattern_back);
+                fileData = replaceBytes(fileData, 0xbb, utf8Pattern_forward);
+                await vscode.workspace.fs.writeFile(uri, fileData);
+            }
+        }
+
+    } catch (error: any) {
+        // Normal if read too soon ?
+        if (error.code === 'NoPermissions') {
+            vscode.window.showErrorMessage(`Error writing to file '${name}': ${error.message}`);
+        }
     }
 }
 
-function change_encoding(xpand_config: { [key: string]: any; })
-{
-    console.log(xpand_config)
-    xpand_config = {
-        ...xpand_config,
-        "files.encoding": "iso88591"
-    };
-    console.log(xpand_config)
+function containsArr(pattern: Uint8Array, fileData: Uint8Array<ArrayBufferLike>) {
+    const contains = fileData.some((_, i) =>
+        i < fileData.length - 1 &&
+        fileData[i] === pattern[0] &&
+        fileData[i + 1] === pattern[1]
+    );
+    return contains;
+}
 
-    /*
+function replaceBytes(data: Uint8Array, target: number, replacement: Uint8Array): Uint8Array {
+    let result: number[] = [];
 
-    // Update settings globally
-    config.update("[xpand]", updatedSettings, vscode.ConfigurationTarget.Global)
-        .then(() => {
-            vscode.window.showInformationMessage('".xpt" files will now be encoded with ISO 8859-1.');
-        }, err => {
-            console.error("Failed to update encoding:", err);
-        });
-        */
+    for (let i = 0; i < data.length; i++) {
+        if (data[i] === target) {
+            result.push(...replacement);
+        } else {
+            result.push(data[i]);
+        }
+    }
+
+    return new Uint8Array(result);
 }

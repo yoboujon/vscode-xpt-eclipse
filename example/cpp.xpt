@@ -1,0 +1,15 @@
+«DEFINE main FOR MODEL»
+«	FILE "toto.cpp"»
+#include "stdio.h"
+
+int main() {
+«		IF name.isEmpty()»
+	printf("Hello world\n");
+«		ELSE»
+	printf("Hello «name»!\n");
+«		ENDIF»
+	return 0;
+}
+
+«	ENDFILE»
+«ENDDEFINE»

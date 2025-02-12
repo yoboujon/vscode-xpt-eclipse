@@ -1,0 +1,16 @@
+<-- Took from the official Xpand Documentation                  -->
+<--                                                             -->
+<-- https://gitlab.eclipse.org/eclipse/xpand/org.eclipse.xpand  -->
+
+�IMPORT meta::model�
+�EXTENSION my::ExtensionFile�
+
+�DEFINE javaClass FOR Entity�
+   �FILE fileName()�
+      package �javaPackage()�;
+
+      public class �name� {
+         // implementation
+      }
+   �ENDFILE�
+�ENDDEFINE�
