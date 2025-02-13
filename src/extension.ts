@@ -71,6 +71,9 @@ async function checkQuotes(event: vscode.TextDocumentChangeEvent) {
 }
 
 async function checkEncoding(document: vscode.TextDocument) {
+    if(document.languageId != "xpand")
+        return;
+
     const uri = document.uri;
     const gitvirtualfile = path.basename(document.uri.path).endsWith("git");
 

@@ -2,15 +2,15 @@
 <--                                                             -->
 <-- https://gitlab.eclipse.org/eclipse/xpand/org.eclipse.xpand  -->
 
-ï¿½IMPORT meta::modelï¿½
-ï¿½EXTENSION my::ExtensionFileï¿½
+«IMPORT meta::model»
+«EXTENSION my::ExtensionFile»
 
-ï¿½DEFINE javaClass FOR Entityï¿½
-   ï¿½FILE fileName()ï¿½
-      package ï¿½javaPackage()ï¿½;
+«DEFINE javaClass FOR Entity»
+   «FILE fileName()»
+      package «javaPackage()»;
 
-      public class ï¿½nameï¿½ {
+      public class «name» {
          // implementation
       }
-   ï¿½ENDFILEï¿½
-ï¿½ENDDEFINEï¿½
+   «ENDFILE»
+«ENDDEFINE»
