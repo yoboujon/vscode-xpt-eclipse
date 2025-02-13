@@ -8,7 +8,7 @@
       "name": "comment.block.xpand"
     },
     {
-      "begin": "«REM»",
+      "begin": "«REM?.»",
       "end": "«ENDREM?.»",
       "name": "comment.block.xpand"
     },
@@ -36,7 +36,27 @@
           "name": "storage.modifier.xpand",
           "match": "\\b(ENDIF|ENDFILE|ENDDEFINE|ENDFOREACH|ENDLET|ENDPROTECT|ENDAROUND)\\b"
         },
-        { "begin": "\"", "end": "\"", "name": "string.quoted.double.xpand" }
+        { "begin": "\"", "end": "\"", "name": "string.quoted.double.xpand" },
+        {
+          "name": "constant.numeric.xpand",
+          "match": "\\b\\d+(\\.\\d+)?\\b"
+        },
+        {
+          "name": "keyword.operator.xpand",
+          "match": "\\+|-|\\*|/|%|=|==|!=|>|<|>=|<=|&&|\\|\\||!|\\?|:"
+        },
+        {
+          "name": "entity.name.function.xpand",
+          "match": "\\b[a-zA-Z_]\\w*\\s*(?=\\()"
+        },
+        {
+          "name": "punctuation.parenthesis.xpand",
+          "match": "\\(|\\)"
+        },
+        {
+          "name": "variable.other.xpand",
+          "match": "\\b[a-zA-Z_]\\w*\\b"
+        }
       ]
     }
   ],
