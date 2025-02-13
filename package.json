@@ -35,6 +35,18 @@
         "scopeName": "source.xpt",
         "path": "./syntaxes/xpand.tmLanguage.json"
       }
+    ],
+    "keybindings":[
+      {
+        "command": "xpand.createOpenGuillemets",
+        "key": "ctrl+oem_102",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "xpand.createClosedGuillemets",
+        "key": "ctrl+shift+oem_102",
+        "when": "editorTextFocus"
+      }
     ]
   },
 	"scripts": {

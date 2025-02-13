@@ -3,10 +3,38 @@ import * as path from 'path';
 
 export function activate(context: vscode.ExtensionContext) {
     vscode.workspace.onDidOpenTextDocument(checkEncoding);
-    vscode.workspace.onDidChangeTextDocument(checkQuotes)
+    vscode.workspace.onDidChangeTextDocument(checkQuotes);
+    vscode.commands.registerCommand('xpand.createOpenGuillemets', createOpenGuillemets);
+    vscode.commands.registerCommand('xpand.createClosedGuillemets', createClosedGuillemets);
 }
 
 export function deactivate() { }
+
+async function createClosedGuillemets() {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        return;
+    }
+
+    const actualPosition = new vscode.Position(editor.selection.active.line, editor.selection.active.character);
+    await editor.edit((editBuilder) => {
+        editBuilder.insert(actualPosition, "»");
+    }, { undoStopBefore: false, undoStopAfter: false });
+}
+
+async function createOpenGuillemets() {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        return;
+    }
+
+    const actualPosition = new vscode.Position(editor.selection.active.line, editor.selection.active.character);
+    const newPosition = new vscode.Position(actualPosition.line, actualPosition.character + 1);
+    await editor.edit((editBuilder) => {
+        editBuilder.insert(actualPosition, "«»");
+    }, { undoStopBefore: false, undoStopAfter: false });
+    editor.selection = new vscode.Selection(newPosition, newPosition);
+}
 
 async function checkQuotes(event: vscode.TextDocumentChangeEvent) {
     const editor = vscode.window.activeTextEditor;
@@ -24,8 +52,8 @@ async function checkQuotes(event: vscode.TextDocumentChangeEvent) {
     const textInserted = change.text;
 
     // Macros
-    replaceCursor('<','«', textInserted, editor);
-    replaceCursor('>','»', textInserted, editor);
+    replaceCursor('<', '«', textInserted, editor);
+    replaceCursor('>', '»', textInserted, editor);
 }
 
 async function checkEncoding(document: vscode.TextDocument) {
@@ -89,8 +117,7 @@ function replaceBytes(data: Uint8Array, target: number, replacement: Uint8Array)
     return new Uint8Array(result);
 }
 
-async function replaceCursor(check: string, replace: string, textInserted: string, editor: vscode.TextEditor)
-{
+async function replaceCursor(check: string, replace: string, textInserted: string, editor: vscode.TextEditor) {
     if (textInserted === check && editor.selection.active.character > 0) {
         const line = editor.document.lineAt(editor.selection.active.line);
         const prevChar = line.text[editor.selection.active.character - 1];
