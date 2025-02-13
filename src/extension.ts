@@ -5,7 +5,7 @@ import { xpandShowSnippets } from './snippets';
 export function activate(context: vscode.ExtensionContext) {
 
     vscode.workspace.onDidOpenTextDocument(checkEncoding);
-    vscode.workspace.onDidChangeTextDocument(checkQuotes);
+    // vscode.workspace.onDidChangeTextDocument(checkQuotes);
     vscode.commands.registerCommand('xpand.createOpenGuillemets', createOpenGuillemets);
     vscode.commands.registerCommand('xpand.createClosedGuillemets', createClosedGuillemets);
     const provider = vscode.languages.registerCompletionItemProvider(
@@ -48,6 +48,8 @@ async function createOpenGuillemets() {
     // editor.selection = new vscode.Selection(newPosition, newPosition);
 }
 
+// Not used because could be annoying with some languages (e.g: C++'s <<)
+// Could be enabled in a parameter tho...
 async function checkQuotes(event: vscode.TextDocumentChangeEvent) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
