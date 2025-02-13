@@ -2,7 +2,7 @@
   "name": "vscode-xpt-eclipse",
   "displayName": "Eclipse Xpand Language Support",
   "description": "VSCode Extension for Eclipse Xpand files.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "repository": "https://github.com/yoboujon/vscode-xpt-eclipse",
   "engines": {
     "vscode": "^1.74.0"

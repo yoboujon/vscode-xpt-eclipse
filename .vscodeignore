@@ -1,5 +1,13 @@
-out/**
+# Ignore vscode/github temp files
 .vscode/**
 .vscode-test/**
 .gitignore
 vsc-extension-quickstart.md
+
+# Ignore TypeScript source files
+src/
+eslint.config.mjs
+tsconfig.json
+
+# Ignore examples for .xpt files
+example/**

@@ -1,24 +1,16 @@
 # VSCode Extension for Eclipse Xpand files
 
-## Getting Started
-
-Install `yo` using npm globally:
-```
-npm install --global yo generator-code
-```
-
-Then, install the dependencies for the project:
-```
-npm install
-```
-
-Finally, compile/debug the extension:
-- Press `F5` for debug
-- Run `idk` to generate the `.vsix`
-
 ## Eclipse Xpand
 
-Eclipse Xpand is a metamodel programming language that is used to generate files using a specific synthax.
+Eclipse Xpand is a meta-model programming language that is used to generate files using a specific synthax.
+
+## Changelog
+
+See the [changelog](CHANGELOG.md) for more information about each version.
+
+## Contributing
+
+Want to contribute to this project ? Follow the instructions in [contributing.md](CONTRIBUTING.md) ! Be sure to check every source for the Xpand language before doing anything, the key is to keep this extension consistant with what Eclipse defined. While Xpand seems dead, it can still be used in many projects and is an interesting meta-model language overall.
 
 ## Sources
 

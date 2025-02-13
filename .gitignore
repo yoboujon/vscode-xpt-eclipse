@@ -1,4 +1,8 @@
+# Created files
 out/**
 .vscode-test/**
-vsc-extension-quickstart.md
 node_modules/**
+*.vsix
+
+# Visual Studio Extension project
+vsc-extension-quickstart.md
