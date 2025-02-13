@@ -1,11 +1,23 @@
 import * as vscode from "vscode";
 import * as path from 'path';
+import { xpandShowSnippets } from './snippets';
 
 export function activate(context: vscode.ExtensionContext) {
+
     vscode.workspace.onDidOpenTextDocument(checkEncoding);
     vscode.workspace.onDidChangeTextDocument(checkQuotes);
     vscode.commands.registerCommand('xpand.createOpenGuillemets', createOpenGuillemets);
     vscode.commands.registerCommand('xpand.createClosedGuillemets', createClosedGuillemets);
+    const provider = vscode.languages.registerCompletionItemProvider(
+        'xpand',
+        {
+            provideCompletionItems(document: vscode.TextDocument, position: vscode.Position) {
+                return xpandShowSnippets();
+            }
+        }
+    );
+
+    context.subscriptions.push(provider);
 }
 
 export function deactivate() { }
@@ -29,11 +41,11 @@ async function createOpenGuillemets() {
     }
 
     const actualPosition = new vscode.Position(editor.selection.active.line, editor.selection.active.character);
-    const newPosition = new vscode.Position(actualPosition.line, actualPosition.character + 1);
+    // const newPosition = new vscode.Position(actualPosition.line, actualPosition.character + 1);
     await editor.edit((editBuilder) => {
-        editBuilder.insert(actualPosition, "«»");
+        editBuilder.insert(actualPosition, "«");
     }, { undoStopBefore: false, undoStopAfter: false });
-    editor.selection = new vscode.Selection(newPosition, newPosition);
+    // editor.selection = new vscode.Selection(newPosition, newPosition);
 }
 
 async function checkQuotes(event: vscode.TextDocumentChangeEvent) {
